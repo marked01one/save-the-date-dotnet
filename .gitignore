@@ -478,3 +478,6 @@ $RECYCLE.BIN/
 API/appsettings.json
 API/datingapp.db
 Notes.md
+
+*.db-shm
+*.db-wal
