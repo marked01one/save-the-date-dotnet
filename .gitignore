@@ -475,6 +475,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Unimportant files in project
 API/appsettings.json
 API/datingapp.db
 Notes.md
