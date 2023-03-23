@@ -1,4 +1,4 @@
-# .NET Projects - Dating App
+# Save the Date!
 A dating app made using ASP.NET and Angular. Part of my ongoing series of ASP.NET web applications.
 
 ## Getting Started
