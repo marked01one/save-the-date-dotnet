@@ -1,6 +1,7 @@
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -11,13 +12,15 @@ namespace API.Controllers
   public class AccountController : BaseApiController
   {
     public DataContext context { get; }
-    public AccountController(DataContext context)
+    public ITokenService tokenService { get; }
+    public AccountController(DataContext context, ITokenService tokenService)
     {
+      this.tokenService = tokenService;
       this.context = context;
     }
 
     [HttpPost("register")]  // POST: api/account/register
-    public async Task<ActionResult<AppUser>> Register(RegisterDto requestBody)
+    public async Task<ActionResult<UserDto>> Register(RegisterDto requestBody)
     {
       // Checks if user already exists in database
       if (await UserExists(requestBody.Username)) return BadRequest("Username is already taken");
@@ -36,11 +39,15 @@ namespace API.Controllers
       this.context.Users.Add(user);
       await this.context.SaveChangesAsync();
       
-      return user;
+      return new UserDto 
+      {
+        UserName = user.UserName,
+        Token = this.tokenService.CreateToken(user)
+      };
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<AppUser>> Login(LoginDto requestBody)
+    public async Task<ActionResult<UserDto>> Login(LoginDto requestBody)
     {
       var user = await this.context.Users.SingleOrDefaultAsync(
         user => user.UserName == requestBody.Username.ToLower()
@@ -58,7 +65,11 @@ namespace API.Controllers
         if (computedHash[i] != user.PasswordHash[i]) return Unauthorized();
       }
 
-      return Ok(user);
+      return new UserDto 
+      {
+        UserName = user.UserName,
+        Token = this.tokenService.CreateToken(user)
+      };
     }
 
     private async Task<bool> UserExists(string username)
