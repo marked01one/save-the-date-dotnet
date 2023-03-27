@@ -16,6 +16,7 @@ namespace API.Controllers
       this.context = context;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()  // ActionResult<> allows you to return standard HTTP responses (i.e. NotFound())
     {
