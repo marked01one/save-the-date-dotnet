@@ -1,0 +1,19 @@
+<div class="container mt-5">
+  <div style="text-align: center;" *ngIf="!registerMode">
+    <h1>Save the Date!</h1>
+    <p class="lead">A place to view all your romantic matches. Sign up now!</p>
+    <div class="text-center">
+      <button (click)="registerToggle()" class="btn btn-primary btn-lg me-2">Register</button>
+      <button class="btn btn-primary btn-info btn-lg">Learn more</button>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="registerMode">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <!-- `users` refer to the this.users inside the parent component (i.e., Homepage) -->
+        <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+      </div>
+    </div>
+  </div>
+</div>
