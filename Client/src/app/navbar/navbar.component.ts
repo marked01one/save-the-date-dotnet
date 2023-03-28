@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountService } from '../services/account.service';
+import { AccountService } from '../_services/account.service';
 import { Observable, of } from 'rxjs';
-import { User } from '../types/user';
+import { User } from '../_types/user';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +13,10 @@ import { User } from '../types/user';
 export class NavbarComponent implements OnInit {
   model: any = {};
 
-  constructor(public accountService: AccountService) { }
+  constructor(
+    public accountService: AccountService,
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -19,15 +24,14 @@ export class NavbarComponent implements OnInit {
 
   login() {
     this.accountService.login(this.model).subscribe({
-      next: response => {
-        console.log(response);
-      },
-      error: e => console.log (e),
+      next: () => this.router.navigateByUrl('/members'),
+      error: () => this.toastr.error("Invalid login credentials"),
     });
   }
 
   logout() {
     this.accountService.logout();
+    this.router.navigateByUrl('/');
   }
 
 }
