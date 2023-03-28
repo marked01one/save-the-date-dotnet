@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { User } from '../types/user';
+import { User } from '../_types/user';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
