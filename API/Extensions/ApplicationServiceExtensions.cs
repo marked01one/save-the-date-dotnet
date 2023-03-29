@@ -18,7 +18,10 @@ namespace API.Extensions
 
       services.AddCors();
 
+      // These services are now injectable into our controllers
       services.AddScoped<ITokenService, TokenService>();
+      services.AddScoped<IUserRepository, UserRepository>();
+      services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
       return services;
     }
